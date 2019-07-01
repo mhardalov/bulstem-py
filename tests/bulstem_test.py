@@ -5,7 +5,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import nltk
 import unittest
 
-from stem.bulstem import BulStemmer
+from bulstem.stem import BulStemmer
 
 
 class BulStemmerTest(unittest.TestCase):
