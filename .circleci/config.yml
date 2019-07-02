@@ -1,4 +1,3 @@
-
 version: 2
 jobs:
     build_py3:
@@ -10,7 +9,6 @@ jobs:
             - run: sudo pip install --progress-bar off .
             - run: sudo pip install nltk
             - run: python -m unittest tests.bulstem_test
-            - run: codecov
     build_py2:
         working_directory: ~/pytorch-pretrained-BERT
         docker:
@@ -20,7 +18,6 @@ jobs:
             - run: sudo pip install --progress-bar off .
             - run: sudo pip install nltk
             - run: python -m unittest tests.bulstem_test
-            - run: codecov
 workflows:
   version: 2
   build_and_test:
