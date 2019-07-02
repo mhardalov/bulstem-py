@@ -1,4 +1,6 @@
-# bulstem-py
+# BulStem-py: A Python Re-implementation of BulStem - inflectional stemmer for Bulgarian
+
+[![CircleCI](https://circleci.com/gh/mhardalov/bulstem-py.svg?style=svg&circle-token=85a1632948c16a50675753abedcd43cc4a64b23d)](https://circleci.com/gh/mhardalov/bulstem-py)
 
 ## Introduction
 This is the Python version of the BulStem stemming algorithm. It follows the algorithm presented in
