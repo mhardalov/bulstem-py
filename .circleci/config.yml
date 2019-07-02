@@ -23,4 +23,4 @@ workflows:
   build_and_test:
     jobs:
       - build_py3
-- build_py2
+      - build_py2
