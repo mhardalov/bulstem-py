@@ -18,6 +18,7 @@ which includes original Perl implementation, also a Java, and another Python ver
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import re
+from io import open
 from nltk.compat import python_2_unicode_compatible
 from nltk.stem.api import StemmerI
 
@@ -189,6 +190,3 @@ class BulStemmer(StemmerI):
             stem = self._stem_rules.get(stem, i)
 
         return stem
-
-stemmer = BulStemmer(["ой ==> о 10"], min_freq=0, left_context=0)
-stemmer.stem('тоой')

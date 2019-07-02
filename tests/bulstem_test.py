@@ -8,13 +8,14 @@ import unittest
 from bulstem.stem import BulStemmer
 
 
+def setUpModule():
+    nltk.download('punkt')
+
+
 class BulStemmerTest(unittest.TestCase):
     RULES_1_PATH = './rules/stem_rules_context_1_utf8.txt'
     RULES_2_PATH = './rules/stem_rules_context_2_utf8.txt'
     RULES_3_PATH = './rules/stem_rules_context_3_utf8.txt'
-
-    def setUp(self):
-        nltk.download('punkt')
 
     def test_full_stem(self):
         stemmer = BulStemmer.from_file(BulStemmerTest.RULES_2_PATH, min_freq=2, left_context=2)
