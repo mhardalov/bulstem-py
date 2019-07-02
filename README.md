@@ -4,8 +4,8 @@
 This is the Python version of the BulStem stemming algorithm. It follows the algorithm presented in
 
 ```
-Nakov, P. BulStem: Design and evaluation of inflectional stemmer for Bulgarian. In Workshop on Balkan Language Resources
-and Tools (Balkan Conference in Informatics).
+Nakov, P. BulStem: Design and evaluation of inflectional stemmer for Bulgarian. In Workshop on 
+Balkan Language Resources and Tools (Balkan Conference in Informatics).
 ```
 
 See http://people.ischool.berkeley.edu/~nakov/bulstem/ for the homepage of the algorithm. Also, check the original [paper](http://people.ischool.berkeley.edu/~nakov/bulstem/BulStem.pdf) for more details and examples.
