@@ -39,6 +39,7 @@ stemmer.stem('вероятен') # Excepted output: 'вероят'
 
 [Perl (Original)](http://people.ischool.berkeley.edu/~nakov/bulstem/apply_stem.pl),
 [Java (JDK 1.4)](http://people.ischool.berkeley.edu/~nakov/bulstem/Stemmer.java),
-[C#](https://github.com/tbmihailov/bulstem),
+[Ruby](https://github.com/tbmihailov/bulstem),
+[C#](https://github.com/tbmihailov/bulstem-cs),
 [Python2](https://github.com/peio/PyBulStem),
 [GATE plugin (Java)](https://gate.ac.uk/gate/plugins/Lang_Bulgarian/src/gate/bulstem/BulStemPR.java)
