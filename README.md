@@ -27,7 +27,7 @@ Basic algorithm steps:
 ```python
 from bulstem.stem import BulStemmer
 
-stemmer = BulStemmer('stem_rules_context_2_utf8.txt', min_freq=2, left_context=3)
+stemmer = BulStemmer.from_file('stem_rules_context_2_utf8.txt', min_freq=2, left_context=3)
 stemmer.stem('вероятен') # Excepted output: 'вероят'
 ```
 
