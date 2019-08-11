@@ -18,7 +18,8 @@ which includes original Perl implementation, also a Java, and another Python ver
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import re
-import nltk
+from io import open
+
 from nltk.compat import python_2_unicode_compatible
 from nltk.stem.api import StemmerI
 
