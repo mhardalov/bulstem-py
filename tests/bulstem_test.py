@@ -2,10 +2,13 @@
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import os
+
 import nltk
 import unittest
 
 from bulstem.stem import BulStemmer
+from tests import BULSTEM_DIR
 
 
 def setUpModule():
@@ -13,9 +16,9 @@ def setUpModule():
 
 
 class BulStemmerTest(unittest.TestCase):
-    RULES_1_PATH = './rules/stem_rules_context_1_utf8.txt'
-    RULES_2_PATH = './rules/stem_rules_context_2_utf8.txt'
-    RULES_3_PATH = './rules/stem_rules_context_3_utf8.txt'
+    RULES_1_PATH = os.path.join(BULSTEM_DIR, 'stemrules/stem_rules_context_1_utf8.txt')
+    RULES_2_PATH = os.path.join(BULSTEM_DIR, 'stemrules/stem_rules_context_2_utf8.txt')
+    RULES_3_PATH = os.path.join(BULSTEM_DIR, 'stemrules/stem_rules_context_3_utf8.txt')
 
     def compare_texts(self, stemmer, stemmed_text, text):
         for (token, stem) in zip(nltk.casual_tokenize(text),
@@ -128,6 +131,11 @@ class BulStemmerTest(unittest.TestCase):
     def test_duplicates_exception(self):
         with self.assertRaises(ValueError):
             BulStemmer(["ой ==> о 10", "ой ==> о 30"], min_freq=0, left_context=0)
+
+    def test_stem_predef(self):
+        stemmer = BulStemmer.from_file('stem-context-2', min_freq=2, left_context=2)
+        self.assertEqual('вероят', stemmer.stem('вероятен'))
+        self.assertEqual('този', stemmer.stem('този'))
 
 
 if __name__ == '__main__':

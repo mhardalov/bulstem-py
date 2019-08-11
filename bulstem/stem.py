@@ -19,8 +19,11 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import re
 from io import open
+
 from nltk.compat import python_2_unicode_compatible
 from nltk.stem.api import StemmerI
+
+from . import stemrules
 
 
 @python_2_unicode_compatible
@@ -123,8 +126,8 @@ class BulStemmer(StemmerI):
         """
         Constructs BulStemmer from file.
 
-        :param path: string, path to the rules file formatted: word ==> stem freq.
-        :param encoding: (Optional) string, encoding of the rules file
+        :param path: string, path to the stemrules file formatted: word ==> stem freq.
+        :param encoding: (Optional) string, encoding of the stemrules file
         :param min_freq: (Optional) int, the minimum frequency of a rule to be used when stemming.
         :param left_context: (Optional) int, size of the prefix which will not be stemmed.
         :param allow_duplicates: (Optional) bool, if false it raises ValueError exception when duplicates are found.
@@ -132,19 +135,32 @@ class BulStemmer(StemmerI):
         :returns BulStemmer, an instance of BulStemmer.
         :raises ValueError: if duplicates are found in the fields.
         """
-        with open(path, 'r', encoding=encoding) as rules:
-            stemmer = cls(rules, min_freq, left_context, allow_duplicates)
+        if path in stemrules.RULES_PRE_DEF_PATH:
+            try:
+                import importlib.resources as pkg_resources
+            except ImportError:
+                # Try backported to PY<37 `importlib_resources`.
+                import importlib_resources as pkg_resources
 
-        return stemmer
+            rules_stream = pkg_resources.open_text(stemrules, stemrules.RULES_PRE_DEF_PATH[path], encoding=encoding)
+        else:
+            rules_stream = open(path, 'r', encoding=encoding)
+
+        try:
+            stemmer = cls(rules_stream, min_freq, left_context, allow_duplicates)
+            return stemmer
+        finally:
+            rules_stream.close()
+            # pass
 
     def _read_rules(self, rules, allow_duplicates=False):
         """
-        Fills the Trie with the corresponding rules
+        Fills the Trie with the corresponding stemrules
 
         :param rules: Iterable[string], a collection of strings formatted, as follows: word ==> stem freq.
         :param allow_duplicates: (Optional) bool, if false it raises ValueError exception when duplicates are found.
 
-        :return: SuffixTrie, Trie filled with stemming rules.
+        :return: SuffixTrie, Trie filled with stemming stemrules.
         :raises ValueError: if duplicates are found in the fields.
         """
         stem_rules = BulStemmer.SuffixTrie(allow_duplicates)
