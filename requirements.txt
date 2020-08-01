@@ -1,5 +1,2 @@
-certifi==2020.6.20
-importlib-resources==3.0.0
-nltk==3.4.3
-six==1.15.0
-zipp==3.1.0
+regex==2020.7.14
+pathlib==1.0.1

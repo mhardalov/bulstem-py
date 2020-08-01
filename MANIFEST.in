@@ -1,1 +1,1 @@
-include bulstem/stemrules/*.txt
+include resources/stemrules/*.txt
