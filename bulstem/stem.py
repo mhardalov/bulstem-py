@@ -15,19 +15,13 @@ Preslav Nakov, the algorithm's inventor, maintains a web page about the algorith
 which includes original Perl implementation, also a Java, and another Python version.
 """
 
-from __future__ import absolute_import, division, print_function, unicode_literals
+import pathlib
+from typing import Iterable
 
-import re
-from io import open
-
-from nltk.compat import python_2_unicode_compatible
-from nltk.stem.api import StemmerI
-
-from . import stemrules
+import regex
 
 
-@python_2_unicode_compatible
-class BulStemmer(StemmerI):
+class BulStemmer:
     """
     A stemmer base on Nakov, P. BulStem: Design and evaluation of inflectional stemmer for Bulgarian.
     In Workshop on Balkan Language Resources and Tools (Balkan Conference in Informatics).
@@ -35,8 +29,16 @@ class BulStemmer(StemmerI):
     See http://people.ischool.berkeley.edu/~nakov/bulstem/ for the homepage of the algorithm.
     """
 
-    RULES_PATTERN = re.compile(r"([а-я]+)\s+==>\s+([а-я]+)\s+([0-9]+)", re.IGNORECASE)
-    VOWELS = {'а', 'ъ', 'о', 'у', 'е', 'и', 'я', 'ю'}
+    RULES_PATTERN = regex.compile(
+        r"([а-я]+)\s+==>\s+([а-я]+)\s+([0-9]+)", regex.IGNORECASE
+    )
+    VOWELS = {"а", "ъ", "о", "у", "е", "и", "я", "ю"}
+
+    RULES_PRE_DEF_PATH = {
+        "stem-context-1": "stem_rules_context_1_utf8.txt",
+        "stem-context-2": "stem_rules_context_2_utf8.txt",
+        "stem-context-3": "stem_rules_context_3_utf8.txt",
+    }
 
     class TrieNode:
         def __init__(self):
@@ -50,7 +52,7 @@ class BulStemmer(StemmerI):
             return len(self.stem)
 
     class SuffixTrie:
-        def __init__(self, allow_duplicates=False):
+        def __init__(self, allow_duplicates: bool = False):
             """
             Constructs SuffixTrie.
 
@@ -59,7 +61,7 @@ class BulStemmer(StemmerI):
             self._root = BulStemmer.TrieNode()
             self._allow_duplicates = allow_duplicates
 
-        def add(self, word, stem):
+        def add(self, word: str, stem: str):
             """
             Adds a single word with it's stem to the SuffixTrie.
 
@@ -79,7 +81,7 @@ class BulStemmer(StemmerI):
 
             curr.stem = stem
 
-        def get(self, word, vowel_idx):
+        def get(self, word: str, vowel_idx: int) -> str:
             """
             Finds the longest possible rule from the end of the word, and appends it to the non-stemmed prefix.
 
@@ -106,7 +108,13 @@ class BulStemmer(StemmerI):
 
             return word[:idx] + stem
 
-    def __init__(self, rules, min_freq=2, left_context=3, allow_duplicates=False):
+    def __init__(
+        self,
+        rules: Iterable[str],
+        min_freq: int = 2,
+        left_context: int = 3,
+        allow_duplicates: bool = False,
+    ):
         """
         Constructs BulStemmer.
 
@@ -122,7 +130,14 @@ class BulStemmer(StemmerI):
         self._stem_rules = self._read_rules(rules, allow_duplicates)
 
     @classmethod
-    def from_file(cls, path, encoding="utf-8", min_freq=2, left_context=3, allow_duplicates=False):
+    def from_file(
+        cls,
+        path: str,
+        encoding: str = "utf-8",
+        min_freq: int = 2,
+        left_context: int = 3,
+        allow_duplicates: bool = False,
+    ) -> "BulStemmer":
         """
         Constructs BulStemmer from file.
 
@@ -135,25 +150,19 @@ class BulStemmer(StemmerI):
         :returns BulStemmer, an instance of BulStemmer.
         :raises ValueError: if duplicates are found in the fields.
         """
-        if path in stemrules.RULES_PRE_DEF_PATH:
-            try:
-                import importlib.resources as pkg_resources
-            except ImportError:
-                # Try backported to PY<37 `importlib_resources`.
-                import importlib_resources as pkg_resources
+        if path in cls.RULES_PRE_DEF_PATH:
+            path = str(
+                pathlib.Path(__file__).parents[1]
+                / "resources"
+                / "stemrules"
+                / cls.RULES_PRE_DEF_PATH[path]
+            )
 
-            rules_stream = pkg_resources.open_text(stemrules, stemrules.RULES_PRE_DEF_PATH[path], encoding=encoding)
-        else:
-            rules_stream = open(path, 'r', encoding=encoding)
-
-        try:
+        with open(path, "r", encoding=encoding) as rules_stream:
             stemmer = cls(rules_stream, min_freq, left_context, allow_duplicates)
             return stemmer
-        finally:
-            rules_stream.close()
-            # pass
 
-    def _read_rules(self, rules, allow_duplicates=False):
+    def _read_rules(self, rules: Iterable[str], allow_duplicates: bool = False):
         """
         Fills the Trie with the corresponding stemrules
 
@@ -176,13 +185,13 @@ class BulStemmer(StemmerI):
         return stem_rules
 
     @staticmethod
-    def pos_first_vowel(token):
+    def pos_first_vowel(token: str) -> int:
         """
         Finds the position of the first vowel in a token.
 
         :param token: string, a lower-cased word.
 
-        :return: string, position of the first vowel, if found, else one position after the last index.
+        :return: int, position of the first vowel, if found, else one position after the last index.
         """
         i = 0
         while i < len(token) and token[i] not in BulStemmer.VOWELS:
@@ -190,7 +199,7 @@ class BulStemmer(StemmerI):
 
         return i
 
-    def stem(self, token):
+    def stem(self, token: str) -> str:
         """
         The stemming is performed by applying the longest possible rule (if any), provided that the stem produced
         contains at least one vowel.
