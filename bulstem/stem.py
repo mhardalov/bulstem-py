@@ -152,8 +152,7 @@ class BulStemmer:
         """
         if path in cls.RULES_PRE_DEF_PATH:
             path = str(
-                pathlib.Path(__file__).parents[1]
-                / "resources"
+                pathlib.Path(__file__).parent
                 / "stemrules"
                 / cls.RULES_PRE_DEF_PATH[path]
             )

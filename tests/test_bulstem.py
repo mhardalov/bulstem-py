@@ -5,9 +5,10 @@ import unittest
 
 import nltk
 
+import bulstem
 from bulstem.stem import BulStemmer
 
-BULSTEM_DIR = pathlib.Path(__file__).parents[1] / "resources"
+BULSTEM_DIR = pathlib.Path(bulstem.__file__).parent
 
 
 def setUpModule():

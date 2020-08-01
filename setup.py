@@ -7,7 +7,7 @@ extras["testing"] = ["pytest", "nltk"]
 
 setup(
     name="bulstem_py",
-    version="0.3.0",
+    version="0.3.1",
     author="Momchil Hardalov",
     author_email="momchil.hardalov@gmail.com",
     description="Python version of the BulStem implemented with Trie",
@@ -21,12 +21,15 @@ setup(
     extras_require=extras,
     entry_points={},
     include_package_data=True,
-    package_data={"stemrules": ["resources/stemrules/*.txt"]},
+    package_data={"bulstem": ["stemrules/*.txt"]},
     python_requires=">=3.6.0",
     classifiers=[
         "Intended Audience :: Science/Research",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Topic :: Scientific/Engineering :: Artificial Intelligence :: Natural Language Processing",
     ],
 )
