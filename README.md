@@ -24,20 +24,15 @@ Basic algorithm steps:
 
 ## Installation
 
-This library is compatible with Python 2.7 and 3.5+.
+This library is compatible Python >= 3.6.
 
 Clone the repository and run:
 
 ### With pip
 
 ```bash
-pip install [--editable] .
-```
-
-### With setuptools
-
-```bash
-python setup.py install
+pip install -e .
+pip install -r requirements.txt
 ```
 
 ### Test
@@ -47,7 +42,9 @@ The test suit can be run as follows:
  
 
 ```bash
-python setup.py install
+pip install -e ".[testing]"
+pip install -r requirements-test.txt
+python -m unittest
 ```
 
 ## Usage
@@ -94,8 +91,8 @@ for i, rules_name in enumerate(PRE_DEFINED_RULES, start=1):
     print(i, stemmer.stem('вторият'))
 
 stemmer = BulStemmer.from_file('stem_rules_context_2_utf8.txt', min_freq=2, left_context=i)
-stemmer.stem('вторият')# Excepted output: 1. 'втори'
-stemmer.stem('вероятен')# Excepted output: 1. 'вероят'
+stemmer.stem('вторият') # Excepted output: 1. 'втори'
+stemmer.stem('вероятен') # Excepted output: 1. 'вероят'
 ```
 
 `BulStemmer.from_file` params:
