@@ -16,9 +16,8 @@ which includes original Perl implementation, also a Java, and another Python ver
 """
 
 import pathlib
+import re
 from typing import Iterable
-
-import regex
 
 
 class BulStemmer:
@@ -29,9 +28,7 @@ class BulStemmer:
     See http://people.ischool.berkeley.edu/~nakov/bulstem/ for the homepage of the algorithm.
     """
 
-    RULES_PATTERN = regex.compile(
-        r"([а-я]+)\s+==>\s+([а-я]+)\s+([0-9]+)", regex.IGNORECASE
-    )
+    RULES_PATTERN = re.compile(r"([а-я]+)\s+==>\s+([а-я]+)\s+([0-9]+)", re.IGNORECASE)
     VOWELS = {"а", "ъ", "о", "у", "е", "и", "я", "ю"}
 
     RULES_PRE_DEF_PATH = {
