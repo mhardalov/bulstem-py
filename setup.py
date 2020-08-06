@@ -7,7 +7,7 @@ extras["testing"] = ["pytest", "nltk"]
 
 setup(
     name="bulstem",
-    version="0.3.2",
+    version="0.3.3",
     author="Momchil Hardalov",
     author_email="momchil.hardalov@gmail.com",
     description="Python version of the BulStem stemming algorithm",
