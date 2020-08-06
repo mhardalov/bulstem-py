@@ -17,17 +17,16 @@ See http://people.ischool.berkeley.edu/~nakov/bulstem/ for the homepage of the a
 
 ## Implementation
 
-This implementation, in contrast of other available, uses a Trie, instead of Dictionary/Hashtable/, to find the longest possible rule, which can be applied to a certain token.
-The Stemmer class is derived from NLTK's `StemmerI` interface, making it fully compatible with its pipelines. 
+This implementation, in contrast of the other available uses a Trie, instead of Dictionary/Hashtable/, in order to find the longest possible rule, that can be applied to a token.
 
 Basic algorithm steps:
 1. Find the position of the first vowel in the token.
-2. Finds the longest possible rule traversing the string in reverse order until there is a matching suffix, or the position of the first vowel found in Step. 1.
+2. Find the longest possible rule by traversing the string in reverse order until there is a matching suffix, or down to the position of the first vowel (found in Step. 1).
 3. Prepend the non-stemmed prefix to the stemmed suffix (Step. 2).
 
 ## Installation
 
-This library is compatible Python >= 3.6.
+This library is compatible with Python >= 3.6.
 
 Clone the repository and run:
 
@@ -52,13 +51,13 @@ python -m unittest
 
 ## Usage
 
-The library needs a set of rules to apply stemming properly. The rules can be either a list to the `BulStemmer` constructor, or a path to a file containing them.
+The library works with a set of rules used for stemming. The rules can be either passed as a list to the `BulStemmer` constructor, or as a path to a file.
 
 For both options the rules need to be formatted as follows:
 
 `word ==> stem ==> freq`
 
-Pre-defined set of rules is included in the distribution, and can be used directly by the user, and can be found [here](https://github.com/mhardalov/bulstem-py/tree/master/bulstem/stemrules). (examples: [Reading the rules from an external file](#reading-the-rules-from-an-external-file))
+A pre-defined set of rules is included in the package, and can be used directly. The stemming rules can be found [here](https://github.com/mhardalov/bulstem-py/tree/master/bulstem/stemrules). (examples: [Reading the rules from an external file](#reading-the-rules-from-an-external-file))
 
 ### Manually loading rules
 
@@ -99,7 +98,7 @@ stemmer.stem('вероятен') # Excepted output: 1. 'вероят'
 ```
 
 `BulStemmer.from_file` params:
-1. `path` - Path (or pre-defined name) to the rules file formatted, as follows: word ==> stem ==> freq.
+1. `path` - Path (or pre-defined name) to the rules file formatted as follows: word ==> stem ==> freq.
 2. `min_freq` - The minimum frequency of a rule to be used when stemming.
 3. `left_context` - Size of the prefix which will not be stemmed.
 
